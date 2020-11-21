@@ -1,0 +1,19 @@
+{
+  "data" : [
+      {
+          "id" : 1,
+          "nama" : "Alexa Rachel",
+          "jabatan" :"Pediatrician"
+      },
+      {
+          "id" : 2,
+          "nama" : "Sunny Frank",
+          "jabatan" :"Dentist"
+      },
+      {
+          "id" : 3,
+          "nama" : "Poe Minn",
+          "jabatan" :"Podiatrist"
+      }
+  ]
+}
