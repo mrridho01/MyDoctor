@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { Button, Header, Input, Gap } from '../../components'
+import { useForm } from '../../utils';
 import { colors } from '../../utils/colors'
 
 export default function Register({navigation}) {
-    const [fullName, setFullName] = useState ("");
-    const [pekerjaan, setPekerjaan] = useState ("");
-    const [email, setEmail] = useState ("");
-    const [password, setPassword] = useState ("");
-     
+   const [form, setForm] = useForm ({
+        fullName : "",
+        pekerjaan : "",
+        email : "",
+        password : ""
+    })
+
     return (
     <View style = {styles.page}>
             <Header text = "Daftar Akun" onPress = {() => navigation.goBack()}/>
@@ -17,26 +20,26 @@ export default function Register({navigation}) {
                 <ScrollView showsVerticalScrollIndicator = {false}>
                 <Input 
                 title = "Full Name" 
-                value ={fullName} 
-                onChangeText = {(value) => setFullName (value)} 
+                value ={form.fullName} 
+                onChangeText = {(value) => setForm ("fullName", value)} 
                 />
                 <Gap height = {24} />
                 <Input 
                 title = "Pekerjaan" 
-                value ={pekerjaan} 
-                onChangeText = {(value) => setPekerjaan (value)} 
+                value ={form.pekerjaan} 
+                onChangeText = {(value) => setForm ("pekerjaan",value)} 
                 />
                 <Gap height = {24} />
                 <Input 
                 title = "Email Address" 
-                value ={email} 
-                onChangeText = {(value) => setEmail (value)} 
+                value ={form.email} 
+                onChangeText = {(value) => setForm ("email",value)} 
                 />
                 <Gap height = {24} />
                 <Input 
                 title = "Password" 
-                value ={password} 
-                onChangeText = {(value) => setPassword (value)} 
+                value ={form.password} 
+                onChangeText = {(value) => setForm ("password",value)} 
                 secureTextEntry
                 />
                 <Gap height = {40} />
