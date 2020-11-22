@@ -10,7 +10,10 @@ const mainColors = {
     grey3 : "#EEEEEE",
     grey4 : "#EDEEF0",
     white : "white",
-    blue1 : "#0066CB"
+    blue1 : "#0066CB",
+    black1 : "#000000",
+    black2 : "rgba(0, 0, 0, 0.5)",
+    red1 : "#E06379"
 };
 
 export const colors = {
@@ -53,5 +56,7 @@ export const colors = {
     backgroundChatItem : {
         aku : mainColors.green2,
         other : mainColors.green1
-    }
+    },
+    loadingBackground : mainColors.black2,
+    flashMessageError : mainColors.red1
 };

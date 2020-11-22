@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { Button, Header, Input, Gap } from '../../components'
+import { Button, Header, Input, Gap, Loading } from '../../components'
+import { Firebase } from '../../config';
 import { useForm } from '../../utils';
-import { colors } from '../../utils/colors'
+import { colors } from '../../utils/colors';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default function Register({navigation}) {
    const [form, setForm] = useForm ({
@@ -12,7 +14,33 @@ export default function Register({navigation}) {
         password : ""
     })
 
+    const [loading, setLoading] = useState (false);
+
+    const onContinue = () => {
+        setLoading (true);
+        Firebase.auth()
+        .createUserWithEmailAndPassword(form.email, form.password)
+        .then((success) => {
+            setLoading (false);
+            // alert ("register success :", success);
+            setForm ("reset");
+        })
+        .catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            const errorMessage = error.message;
+            setLoading (false);
+            showMessage ({
+                message : errorMessage,
+                backgroundColor : colors.flashMessageError,
+                color : colors.white
+            });
+            // ...
+          });
+        // // navigation.navigate ('UploadPhoto')
+    }
     return (
+    <>
     <View style = {styles.page}>
             <Header text = "Daftar Akun" onPress = {() => navigation.goBack()}/>
             <Gap height = {10} />
@@ -43,10 +71,12 @@ export default function Register({navigation}) {
                 secureTextEntry
                 />
                 <Gap height = {40} />
-                <Button title = "Continue" onPress = {() =>navigation.navigate ("UploadPhoto")} />
+                <Button title = "Continue" onPress = {onContinue} />
             </ScrollView>
         </View>
-    </View> 
+    </View>
+    {loading && <Loading />}
+    </>
     )
 }
 
