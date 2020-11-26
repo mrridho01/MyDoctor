@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { Button, Header, Input, Gap, Loading } from '../../components'
 import { Firebase } from '../../config';
-import { useForm } from '../../utils';
+import { getData, storeData, useForm } from '../../utils';
 import { colors } from '../../utils/colors';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
@@ -12,11 +12,12 @@ export default function Register({navigation}) {
         pekerjaan : "",
         email : "",
         password : ""
-    })
+    });
 
     const [loading, setLoading] = useState (false);
-
+  
     const onContinue = () => {
+       
         setLoading (true);
         Firebase.auth()
         .createUserWithEmailAndPassword(form.email, form.password)
@@ -33,11 +34,13 @@ export default function Register({navigation}) {
             Firebase
             .database()
             .ref("users/" +success.user.uid + "/")
-            .set({data})
+            .set({data});
+
+            navigation.navigate ('UploadPhoto');
+            storeData("user", form);
         })
         .catch((error) => {
             // Handle Errors here.
-            var errorCode = error.code;
             const errorMessage = error.message;
             setLoading (false);
             showMessage ({
@@ -47,8 +50,7 @@ export default function Register({navigation}) {
             });
             // ...
           });
-        // // navigation.navigate ('UploadPhoto')
-    }
+    };
     return (
     <>
     <View style = {styles.page}>
