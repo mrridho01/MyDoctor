@@ -5,13 +5,20 @@ import { colors } from '../../../utils/colors'
 import ButtonIconSend from './ButtonIconSend'
 import IconOnly from './IconOnly'
 
-export default function Button({type, title, onPress, icon, inactive}) {
+export default function Button({type, title, onPress, icon, inactive, disable}) {
     if (type === "button-icon-send") {
         return <ButtonIconSend inactive = {inactive} />
     };
     if ( type === "icon-only") {
         return <IconOnly icon ={icon} onPress = {onPress}/>
     };
+    if (disable) {
+        return (
+            <View style ={styles.disableButton}>
+                <Text style = {styles.textDisableButton}>{title}</Text>
+            </View>
+        )
+    }
     return (
         <TouchableOpacity style ={styles.container (type)} onPress = {onPress}>
             <Text style = {styles.text (type)}>{title}</Text>
@@ -31,5 +38,16 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: type === "secondary" ? colors.button.secondary.text : colors.button.primary.text
         
-    })
+    }),
+    disableButton : {
+        paddingVertical: 10,
+        borderRadius: 10,
+        backgroundColor : colors.button.inactive.background
+    },
+    textDisableButton : {
+        fontFamily: fonts.primary[600],
+        fontSize: 18,
+        textAlign: "center",
+        color : colors.text.inputTextHint
+    }
 })

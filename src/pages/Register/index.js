@@ -23,7 +23,17 @@ export default function Register({navigation}) {
         .then((success) => {
             setLoading (false);
             // alert ("register success :", success);
+
+            const data = {
+                fullName : form.fullName,
+                pekerjaan : form.pekerjaan,
+                email : form.email
+            };
             setForm ("reset");
+            Firebase
+            .database()
+            .ref("users/" +success.user.uid + "/")
+            .set({data})
         })
         .catch((error) => {
             // Handle Errors here.
