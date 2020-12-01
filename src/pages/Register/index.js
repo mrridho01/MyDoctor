@@ -24,20 +24,20 @@ export default function Register({navigation}) {
         .then((success) => {
             setLoading (false);
             // alert ("register success :", success);
-
             const data = {
                 fullName : form.fullName,
                 pekerjaan : form.pekerjaan,
-                email : form.email
+                email : form.email,
+                uid : success.user.uid
             };
             setForm ("reset");
             Firebase
             .database()
             .ref("users/" +success.user.uid + "/")
-            .set({data});
+            .set(data);
 
-            navigation.navigate ('UploadPhoto');
-            storeData("user", form);
+            storeData("user", data);
+            navigation.navigate ('UploadPhoto', data);
         })
         .catch((error) => {
             // Handle Errors here.

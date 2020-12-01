@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { JSONCategoryDoctor, JSONTopRatedDoctor } from "../../assets"
 import { DoctorType, Gap, HomeProfile, NewsItem, RatedDoctor } from '../../components'
-import { colors, fonts } from '../../utils'
+import { colors, fonts, getData } from '../../utils'
 
 export default function Doctor({navigation}) {
     return (

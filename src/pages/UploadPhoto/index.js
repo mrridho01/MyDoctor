@@ -2,13 +2,20 @@ import React, { useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ICAddPhoto, ICRemovePhoto, ILUserPhoto } from '../../assets'
 import { Button, Gap, Header, Link } from '../../components'
-import { colors, fonts } from '../../utils'
+import { colors, fonts, storeData } from '../../utils'
 import ImagePicker from 'react-native-image-picker'
 import { showMessage } from "react-native-flash-message";
+import { Firebase } from '../../config'
 
-export default function UploadPhoto({navigation}) {
+export default function UploadPhoto({navigation, route}) {
+const {fullName, pekerjaan, uid} = route.params;
+const [photoForDB, setPhotoForDB] = useState("");
 const [hasPhoto,setHasPhoto] = useState (false);
-const options = {};
+const options = {
+    quality : 0.5,
+    maxWidth : 200,
+    maxHeight : 200
+};
 const [photo, setPhoto] = useState(ILUserPhoto)
 const getImage = () => {
     ImagePicker.launchImageLibrary (options, (response) => {
@@ -20,6 +27,9 @@ const getImage = () => {
                 color : colors.white
             })
         } else {
+            console.log("response getImage :", response);
+            setPhotoForDB (`data:${response.type};base64, ${response.data}`);
+                        
             const sourcePhoto = {uri : response.uri};
             setPhoto (sourcePhoto);
             setHasPhoto (true);
@@ -27,6 +37,20 @@ const getImage = () => {
         
     })
 };
+
+    const uploadAndContinue = () => {
+        Firebase
+        .database()
+        .ref("users/" + uid + "/")
+        .update({photo : photoForDB});
+
+        const data = route.params;
+        data.photo = photoForDB;
+
+        storeData("user",data);
+
+        navigation.replace ("MainApp")
+    }
     return (
         <View style = {styles.page}>
             <Header text = "Upload Photo" />
@@ -37,13 +61,13 @@ const getImage = () => {
                         {hasPhoto && <ICRemovePhoto style = {styles.addPhoto}/>  }
                         {!hasPhoto && <ICAddPhoto style = {styles.addPhoto}/> }
                     </TouchableOpacity>
-                        <Text style = {styles.textUserName}>Muhammad Ridho</Text>
+                        <Text style = {styles.textUserName}>{fullName}</Text>
                         <Gap height = {4} />
-                    <Text style = {styles.textOccupation}>Software Engineer</Text>
+                    <Text style = {styles.textOccupation}>{pekerjaan}</Text>
                 </View>
             
                 <View>
-                    <Button disable = {!hasPhoto} title = "Upload and Continue"  />
+                    <Button disable = {!hasPhoto} title = "Upload and Continue" onPress = {uploadAndContinue} />
                     <Gap height = {30} />
                     <Link text = "Skip for this" size = {16} align ="center" onPress = {() => navigation.replace ("MainApp")} />
                 </View>
