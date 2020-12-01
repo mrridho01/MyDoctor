@@ -1,13 +1,26 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ILLogo } from '../../assets'
+import { Firebase } from '../../config';
 import { fonts } from '../../utils';
 import { colors } from '../../utils/colors';
 
 export default function Splash({navigation}) {
     useEffect (() => {
         setTimeout (() => {
-            navigation.replace ("GetStarted");
+            Firebase
+            .auth()
+            .onAuthStateChanged((user) => {
+                if (user) {
+                    //user lagi login
+                    console.log ("user :" , user);
+                    navigation.replace ("MainApp");
+                } else {
+                    //user lagi logout
+                    navigation.replace ("GetStarted");
+                }
+                //Session Login FireBase sekitar 1 jam
+            })
         }, 3000);
     } , [navigation]);
     //kalau sudah selesai halaman ini diproses / render
