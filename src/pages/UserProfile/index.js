@@ -1,19 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { ILUserPhoto } from '../../assets';
 import { List, Gap, Header, Profile } from '../../components'
-import { colors } from '../../utils'
+import { colors, getData } from '../../utils'
 
 export default function UserProfile({navigation}) {
+    const [profile, setProfile] = useState ({
+        fullName : "",
+        pekerjaan : "",
+        photo : ILUserPhoto
+    });
+
+    useEffect (() => {
+      getData ("user")
+      .then (res => {
+          const data = res;
+          data.photo = {uri : res.photo};
+          setProfile (data);
+      });  
+    }, [])
+
     return (
         <View style = {styles.page}>
             <Header text = "Profile" onPress = {() => navigation.goBack ()}/>
             <Gap height = {10} />
             <View style = {styles.profile}>
-            <Profile 
-            tipe = "user"
-            nama = "Shayna Melinda" 
-            jabatan = "Product Desgner"
-            />
+            {profile.fullName.length > 0 && <Profile 
+            nama = {profile.fullName}
+            jabatan = {profile.pekerjaan}
+            photo = {profile.photo}
+            /> }
+            
             </View>
             
             <List 

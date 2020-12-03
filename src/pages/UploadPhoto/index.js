@@ -16,7 +16,8 @@ const options = {
     maxWidth : 200,
     maxHeight : 200
 };
-const [photo, setPhoto] = useState(ILUserPhoto)
+const [photo, setPhoto] = useState(ILUserPhoto);
+
 const getImage = () => {
     ImagePicker.launchImageLibrary (options, (response) => {
         if (response.didCancel === true || response.error) {

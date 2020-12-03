@@ -1,10 +1,10 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { DummyPhotoProfile, ICMale, ICRemovePhoto, ICFemale } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 import { Gap } from '../../Atom'
 
-export default function Profile({tipe, nama, jabatan}) {
+export default function Profile({tipe, nama, jabatan, photo, onPress}) {
     const Icon = () => {
         if (tipe === "edituser") {
             return <ICRemovePhoto style = {styles.removePhoto} />
@@ -20,10 +20,18 @@ export default function Profile({tipe, nama, jabatan}) {
     }
     return (
         <View style = {styles.container}>
+            {tipe !== "edituser" && (
             <View style = {styles.containerFoto}>
-                <Image source = {DummyPhotoProfile} style = {styles.foto} />
+                <Image source = {photo} style = {styles.foto} />
                 <Icon />
             </View>
+            )}           
+            {tipe === "edituser" && (
+            <TouchableOpacity style = {styles.containerFoto} onPress = {onPress}>
+                <Image source = {photo} style = {styles.foto} />
+                <Icon />
+            </TouchableOpacity>
+            )}
              <Gap height = {16} />
             {nama && 
             <View style = {styles.profile}>
