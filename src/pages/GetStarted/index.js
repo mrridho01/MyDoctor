@@ -1,16 +1,20 @@
 import React from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { ILGetStarted, ILLogo } from '../../assets'
 import { Button, Gap } from '../../components'
 import { fonts } from '../../utils'
 import { colors } from '../../utils/colors'
 
 export default function GetStarted({navigation}) {
+    const stateGlobal = useSelector (state => state);
+
     return (
         <ImageBackground source = {ILGetStarted} style = {styles.page}>
             <View>
             <ILLogo />
             <Text style = {styles.title}>Konsultasi dengan dokter jadi lebih mudah & fleksibel</Text>
+
             </View>
             <View>
                 <Button title = "Get Started" onPress = {() => navigation.navigate ("Register")  }/>

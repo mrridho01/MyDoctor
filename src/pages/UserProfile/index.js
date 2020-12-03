@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { showMessage } from 'react-native-flash-message';
 import { ILUserPhoto } from '../../assets';
 import { List, Gap, Header, Profile } from '../../components'
+import { Firebase } from '../../config';
 import { colors, getData } from '../../utils'
 
 export default function UserProfile({navigation}) {
@@ -19,6 +21,22 @@ export default function UserProfile({navigation}) {
           setProfile (data);
       });  
     }, [])
+
+    const signOut = () => {
+        Firebase
+        .auth()
+        .signOut()
+        .then (res => {
+            console.log ("Sign Out ");
+            navigation.replace ("GetStarted");
+        } )
+        .catch (err => {
+            showMessage ({
+                message : err.message,
+                type : "default",
+            })
+        })
+    }
 
     return (
         <View style = {styles.page}>
@@ -50,9 +68,10 @@ export default function UserProfile({navigation}) {
             icon = "giveusrate"
             />
             <List 
-            nama = "Help Center" 
+            nama = "Logout" 
             gender = "Read our guidelines"
             icon = "helpcenter"
+            onPress = {signOut}
             />
         </View>
     )
