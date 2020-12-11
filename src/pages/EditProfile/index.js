@@ -27,8 +27,7 @@ export default function EditProfile({navigation}) {
         })
     }, []);
 
- 
-    
+   
     const changeText = (key, value) => {
         setProfile ({
             ...profile,
@@ -51,16 +50,15 @@ export default function EditProfile({navigation}) {
                 })
             } else {
                 console.log("response getImage :", response);
-                setPhotoForDB (`data:${response.type};base64, ${response.data}`);
-                            
                 const sourcePhoto = {uri : response.uri};
+               
+                setPhotoForDB (`data:${response.type};base64, ${response.data}`);
                 setPhoto (sourcePhoto);
             };
             
         })
     }
     
-
     const updatePassword = () => {
         Firebase
         .auth()
@@ -87,7 +85,6 @@ export default function EditProfile({navigation}) {
         .ref(`users/${profile.uid}/`)
         .update(data)
         .then(() => {
-            console.log("success :" + data);
             storeData ("user", data);
         })
         .catch ((err) =>

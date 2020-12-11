@@ -1,11 +1,10 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
 import { ILLogo } from '../../assets'
 import { Button, Gap, Input, Link } from '../../components'
 import { Firebase } from '../../config'
-import { fonts, storeData, useForm } from '../../utils'
+import { fonts, showError, storeData, useForm } from '../../utils'
 import { colors } from '../../utils/colors'
 
 export default function Login ({navigation}) {
@@ -16,7 +15,6 @@ export default function Login ({navigation}) {
     const dispatch = useDispatch();
 
     const login = () =>{
-        console.log ("Login :" , form);
         dispatch ({
             type : "SET_LOADING",
             value : true
@@ -25,7 +23,6 @@ export default function Login ({navigation}) {
         .auth()
         .signInWithEmailAndPassword(form.email, form.password)
         .then(res => {
-            console.log ("success :" , res);
             dispatch ({
                 type : "SET_LOADING",
                 value : false
@@ -34,7 +31,6 @@ export default function Login ({navigation}) {
             .ref(`users/${res.user.uid}/`)
             .once('value')
             .then(resDB => {
-                console.log ('data user:' , resDB.val());
                 if (resDB.val()) {
                     storeData ("user", resDB.val());
                     navigation.replace ("MainApp");
@@ -46,11 +42,7 @@ export default function Login ({navigation}) {
                 type : "SET_LOADING",
                 value : false
             });
-            showMessage ({
-                message : err.message,
-                backgroundColor : colors.flashMessageError,
-                color : colors.white
-            })
+            showError (err.message);
         })
     };
 

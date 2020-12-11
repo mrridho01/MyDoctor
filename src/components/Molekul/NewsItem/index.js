@@ -4,7 +4,7 @@ import { colors, fonts } from '../../../utils'
 import { ILNews1 } from "../../../assets"
 import { Gap } from '../../Atom'
 
-export default function NewsItem({text, time}) {
+export default function NewsItem({text, time, image}) {
     return (
         <View style = {styles.container}>
             <View style = {styles.titleWrapper}>
@@ -12,7 +12,7 @@ export default function NewsItem({text, time}) {
             <Gap height = {4} />
             <Text style = {styles.time}>{time}</Text>
             </View>
-            <Image source = {ILNews1} style = {styles.image}/>
+            <Image source = {{uri : image}} style = {styles.image}/>
         </View>
     )
 }
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderBottomColor : colors.border.borderColorSecondary,
         borderBottomWidth : 1,
-        paddingHorizontal : 16
+        padding : 16
     },
     image : {
         width : 80,

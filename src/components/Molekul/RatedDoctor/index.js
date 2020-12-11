@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { DummyDokter1, DummyDokter2, DummyDokter3, ICRateDoctor } from '../../../assets'
+import { DummyDokter1, DummyDokter2, DummyDokter3, ICRateDoctor, ILUserPhoto } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 import { Gap } from '../../Atom'
 
@@ -15,7 +15,7 @@ export default function RatedDoctor({nama, jabatan, onPress}) {
         if (nama === "Poe Minn") {
             return <Image source = {DummyDokter3} style = {styles.fotoDokter} />
         };
-        return <Image source = {DummyDokter1} style = {styles.fotoDokter} />
+        return <Image source = {ILUserPhoto} style = {styles.fotoDokter} />
 
     };
     return (

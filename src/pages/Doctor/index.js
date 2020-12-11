@@ -1,10 +1,79 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { JSONCategoryDoctor, JSONTopRatedDoctor } from "../../assets"
+import { JSONTopRatedDoctor } from "../../assets"
 import { DoctorType, Gap, HomeProfile, NewsItem, RatedDoctor } from '../../components'
-import { colors, fonts, getData } from '../../utils'
+import { Firebase } from '../../config'
+import { colors, fonts } from '../../utils'
 
 export default function Doctor({navigation}) {
+    const [news, setNews] = useState ([]);
+    const [categoryDokter, setCategoryDokter] = useState([]);
+    const [doctor, setDoctor] = useState ([]);
+    useEffect (() => {
+        getCategoryDoctor (); 
+        getTopRatedDoctors ();
+        getNews();     
+    }, []);
+
+    const getTopRatedDoctors =() => {
+        Firebase
+        .database()
+        .ref("doctors/")
+        .orderByChild("rate")
+        .limitToLast(3)
+        .once("value")
+        .then ((res) => {
+            console.log("top rated doctors : ", res.val());
+            if (res.val()) {
+                const oldData = res.val();
+                const data = [];
+                Object.keys(oldData).map(key => {
+                    data.push ({
+                        id : key,
+                        data : oldData[key]
+                    });
+                });
+               console.log("data hasil parse: " , data);
+               setDoctor (data);
+            };
+        })
+        .catch ((err) => {
+            console.log ("error : ", err.message);
+        });
+    }
+    const getCategoryDoctor = () => {
+        Firebase
+        .database()
+        .ref("category_dokter/")
+        .once("value")
+        .then ((res) => {
+            console.log("data : ", res.val());
+            if (res.val()) {
+                setCategoryDokter(res.val());
+            };
+        })
+        .catch ((err) => {
+            console.log ("error : ", err.message);
+        });
+    };
+
+    const getNews = () => {
+        Firebase
+        .database()
+        .ref("news/")
+        .once("value")
+        .then ((res) => {
+            console.log("data : ", res.val());
+            if (res.val()) {
+                setNews(res.val());
+            };
+        })
+        .catch ((err) => {
+            console.log ("error : ", err.message);
+        });
+    };
+
+     
     return (
         <View style = {styles.mainPage}>
             <View style = {styles.contentPage}>
@@ -21,12 +90,13 @@ export default function Doctor({navigation}) {
                     <View style = {styles.doctorCategory}>
                     <Gap width = {32} />
                         {
-                            JSONCategoryDoctor.data.map (CategoryDoctor => {
-                                return <DoctorType 
+                            categoryDokter.map(CategoryDoctor => {
+                                return (<DoctorType 
                                 key = {CategoryDoctor.id}
                                 tipe = {CategoryDoctor.tipe}
                                 text = {CategoryDoctor.text}
-                                onPress = {() => {navigation.navigate("DoctorPerCategory")}}/>
+                                onPress = {() => {navigation.navigate("DoctorPerCategory")}}
+                                />);
                             })
                         }
                     <Gap width = {22} />
@@ -37,34 +107,34 @@ export default function Doctor({navigation}) {
                 <Gap height = {30} />      
                 <Text style = {styles.labelSection}>Top Rated Doctor</Text>
                 <Gap height = {16} />
-                {
-                    JSONTopRatedDoctor.data.map (TopRatedDoctor => {
-                        return <RatedDoctor 
-                        key = {TopRatedDoctor.id}
-                        nama = {TopRatedDoctor.nama}
-                        jabatan = {TopRatedDoctor.jabatan}
-                        onPress = {() => navigation.navigate ("DoctorProfile")}
-                        />
-                    })
-                }
+                {doctor.map((doctor) => {
+                    return <RatedDoctor 
+                    key = {doctor.id}
+                    nama = {doctor.data.fullName}
+                    jabatan = {doctor.data.profession}
+                    onPress = {() => navigation.navigate ("DoctorProfile")}
+                    />
+                })}
+            
                 <Gap height = {14} />      
                 <Text style = {styles.labelSection}>Good News</Text>
                 <Gap height = {16} />
                 </View>
-                <NewsItem text = "Is it safe to stay at home during coronavirus?" time = "today"/>
-                <Gap height = {16} />
-                <NewsItem text = "Consume yellow citrus helps you healthier" time = "today"/>
-                <Gap height = {16} />
-                <NewsItem text = "Learn how to make a proper orange juice at home" time = "today"/> 
-                <Gap height = {30} />
-                       
+                {news.map ((item) => {
+                    return (<NewsItem 
+                    key = {item.id}
+                    text = {item.title}
+                    time = {item.date}
+                    image = {item.image}/>)
+                })}
+                          
                 </ScrollView>
                 
             </View>          
         </View>
        
     )
-}
+};
 
 const styles = StyleSheet.create({
     mainPage : {
