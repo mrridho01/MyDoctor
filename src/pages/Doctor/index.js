@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { JSONTopRatedDoctor } from "../../assets"
+import { ILUserPhoto, JSONTopRatedDoctor } from "../../assets"
 import { DoctorType, Gap, HomeProfile, NewsItem, RatedDoctor } from '../../components'
 import { Firebase } from '../../config'
 import { colors, fonts } from '../../utils'
@@ -95,7 +95,7 @@ export default function Doctor({navigation}) {
                                 key = {CategoryDoctor.id}
                                 tipe = {CategoryDoctor.tipe}
                                 text = {CategoryDoctor.text}
-                                onPress = {() => {navigation.navigate("DoctorPerCategory")}}
+                                onPress = {() => {navigation.navigate("DoctorPerCategory", CategoryDoctor)}}
                                 />);
                             })
                         }
@@ -112,7 +112,8 @@ export default function Doctor({navigation}) {
                     key = {doctor.id}
                     nama = {doctor.data.fullName}
                     jabatan = {doctor.data.profession}
-                    onPress = {() => navigation.navigate ("DoctorProfile")}
+                    photo = {{uri : doctor.data.photo}}
+                    onPress = {() => navigation.navigate ("DoctorProfile", doctor)}
                     />
                 })}
             

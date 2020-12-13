@@ -4,23 +4,10 @@ import { DummyDokter1, DummyDokter2, DummyDokter3, ICRateDoctor, ILUserPhoto } f
 import { colors, fonts } from '../../../utils'
 import { Gap } from '../../Atom'
 
-export default function RatedDoctor({nama, jabatan, onPress}) {
-    const Foto = () => {
-        if (nama === "Alexa Rachel") {
-            return <Image source = {DummyDokter1} style = {styles.fotoDokter} />
-        };
-        if (nama === "Sunny Frank") {
-            return <Image source = {DummyDokter2} style = {styles.fotoDokter} />
-        };
-        if (nama === "Poe Minn") {
-            return <Image source = {DummyDokter3} style = {styles.fotoDokter} />
-        };
-        return <Image source = {ILUserPhoto} style = {styles.fotoDokter} />
-
-    };
+export default function RatedDoctor({nama, jabatan, onPress, photo}) {
     return (
         <TouchableOpacity style = {styles.infoDokter} onPress = {onPress}>
-            <Foto />
+            <Image source = {photo} style = {styles.fotoDokter} />
             <Gap width = {12} />
             <View style = {styles.profileDoctor}>
                 <Text style = {styles.namaDokter}>{nama}</Text>
@@ -46,7 +33,8 @@ export default function RatedDoctor({nama, jabatan, onPress}) {
 const styles = StyleSheet.create({
     fotoDokter : {
         width : 50,
-        height : 50
+        height : 50,
+        borderRadius : 50/2
     },
     infoDokter : {
         flexDirection : "row",
@@ -62,7 +50,8 @@ const styles = StyleSheet.create({
     occupationDokter : {
         fontSize : 12,
         fontFamily : fonts.primary.normal,
-        color : colors.text.secondary
+        color : colors.text.secondary,
+        textTransform :"capitalize"
     },
     rate : {
         flexDirection : "row"

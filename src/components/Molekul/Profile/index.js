@@ -9,11 +9,11 @@ export default function Profile({tipe, nama, jabatan, photo, onPress}) {
         if (tipe === "edituser") {
             return <ICRemovePhoto style = {styles.removePhoto} />
         };
-        if (tipe === "dokterperempuan") {
+        if (tipe === "wanita") {
             return (<ICFemale style = {styles.removePhoto} />)
             
         };
-        if (tipe === "dokterlakilaki") {
+        if (tipe === "pria") {
             return <ICMale style = {styles.removePhoto} />
         };
         return (null)
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
         height : 110,
         width : 110,
         borderRadius : 110/2,
-
     },
     nama : {
        fontSize : 20,
@@ -71,7 +70,8 @@ const styles = StyleSheet.create({
     jabatan : {
        fontSize : 16,
        fontFamily : fonts.primary[300],
-       color : colors.text.secondary
+       color : colors.text.secondary,
+       textTransform : "capitalize"
     },
     removePhoto : {
         position : "absolute",

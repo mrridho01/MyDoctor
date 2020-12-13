@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { DummyChat1, DummyChat3, DummyDokter4, DummyDokter5, DummyDokter6, IcEditProfile, ICGiveUsrate, ICGoToRightBotton, ICHelpCenter, ICLanguage } from '../../../assets'
+import { DummyChat1, DummyChat3, DummyDokter4, DummyDokter5, DummyDokter6, IcEditProfile, ICGiveUsrate, ICGoToRightBotton, ICHelpCenter, ICLanguage, ILUserPhoto } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 import { Button, Gap } from '../../Atom'
 
@@ -38,7 +38,7 @@ export default function List({nama, gender, onPress, icon}) {
         if (nama === "Liu Yue Tin Park") {
             return <Image source = {DummyDokter5} style = {styles.foto}/>
         };
-        return <Image source = {DummyChat1} style = {styles.foto}/>
+        return <Image source = {ILUserPhoto} style = {styles.foto}/>
     }
     return (
         <TouchableOpacity style = {styles.container} onPress = {onPress}>
