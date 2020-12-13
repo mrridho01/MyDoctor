@@ -7,10 +7,12 @@ import { colors } from './utils';
 import { Provider, useSelector } from "react-redux";
 import store from './redux';
 import { Loading } from './components';
+import { LogBox } from 'react-native';
 
 const MainApp = () =>  {
   const stateGlobal = useSelector(state => state);
-  console.log ('State Global :', stateGlobal)
+  console.log ('State Global :', stateGlobal);
+  LogBox.ignoreLogs (["Setting a timer"]);
   return (
     <>
     <NavigationContainer>

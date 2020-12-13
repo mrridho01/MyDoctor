@@ -15,7 +15,7 @@ export default function DoctorProfile({navigation, route}) {
             tipe = {dataDoctor.data.gender}
             nama = {dataDoctor.data.fullName} 
             jabatan = {dataDoctor.data.profession}
-            photo = {ILUserPhoto}
+            photo = {{uri : dataDoctor.data.photo}}
             />
             <Gap height = {26} />
             <ProfileItem label = "Alumnus" description = {dataDoctor.data.university} />

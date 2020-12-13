@@ -46,10 +46,13 @@ export default function Doctor({navigation}) {
         .database()
         .ref("category_dokter/")
         .once("value")
-        .then ((res) => {
+        .then ((res) => {     
             console.log("data : ", res.val());
             if (res.val()) {
-                setCategoryDokter(res.val());
+                const data = res.val();
+                const filterData = data.filter ((el) => el !== null);
+
+                setCategoryDokter(filterData);
             };
         })
         .catch ((err) => {
@@ -65,7 +68,9 @@ export default function Doctor({navigation}) {
         .then ((res) => {
             console.log("data : ", res.val());
             if (res.val()) {
-                setNews(res.val());
+                const data = res.val();
+                const filterData = data.filter ((el) => el !== null);
+                setNews(filterData);
             };
         })
         .catch ((err) => {

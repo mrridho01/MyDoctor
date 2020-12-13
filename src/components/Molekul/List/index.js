@@ -4,7 +4,7 @@ import { DummyChat1, DummyChat3, DummyDokter4, DummyDokter5, DummyDokter6, IcEdi
 import { colors, fonts } from '../../../utils'
 import { Button, Gap } from '../../Atom'
 
-export default function List({nama, gender, onPress, icon}) {
+export default function List({nama, gender, onPress, icon, photo}) {
     const Icon = () => {
         if (icon === "editprofile") {
             return <IcEditProfile />
@@ -22,27 +22,17 @@ export default function List({nama, gender, onPress, icon}) {
     };
 
 
-    const DokterAnak = () => {
-        if (nama === "Alexander Jannie") {
-            return <Image source = {DummyChat1} style = {styles.foto}/>
-        };
-        if (nama === "John McParker Steve") {
-            return <Image source = {DummyChat3} style = {styles.foto}/>
-        };
-        if (nama === "Nairobi Putri Hayza") {
-            return <Image source = {DummyDokter6} style = {styles.foto}/>
-        };
-        if (nama === "James Rivillia") {
-            return <Image source = {DummyDokter4} style = {styles.foto}/>
-        };
-        if (nama === "Liu Yue Tin Park") {
-            return <Image source = {DummyDokter5} style = {styles.foto}/>
-        };
-        return <Image source = {ILUserPhoto} style = {styles.foto}/>
-    }
+    const Dokter = () => {
+        if (photo === undefined) {
+            return (<Image source = {ILUserPhoto} style = {styles.foto}/>);
+        } else {
+            return (<Image source = {photo} style = {styles.foto}/>);
+        }
+    };
+    
     return (
         <TouchableOpacity style = {styles.container} onPress = {onPress}>
-            {icon ? <Icon/> : <DokterAnak />  }
+            {icon ? <Icon/> : <Dokter />  }
             <Gap width = {icon ? 16 : 12} />
             <View style = {styles.infoDokter}>
             <Text style = {styles.namaDoktor}>{nama}</Text>
@@ -80,7 +70,8 @@ const styles = StyleSheet.create({
     isiChat : {
         fontSize : 12,
         fontFamily : fonts.primary[300],
-        color : colors.text.secondary
+        color : colors.text.secondary,
+        textTransform : "capitalize"
     },
     panah : {
       height : 24,

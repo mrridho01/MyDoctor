@@ -24,12 +24,14 @@ export default function DoctorPerCategory({navigation, route}) {
             console.log ("kategori dokter : ", res.val());
             if (res.val()) {
                 const oldData = res.val();
+                const data = [];
                 Object.keys(oldData).map(item => {
                     data.push({
-                        id : key,
-                        data : oldData[key]
+                        id : item,
+                        data : oldData[item]
                     })
                 })
+                console.log("parsing kategori dokter : ", data);
                 setListDoctor (data);
             }
             
@@ -47,7 +49,8 @@ export default function DoctorPerCategory({navigation, route}) {
                     key = {dokter.id}
                     gender = {dokter.data.gender}
                     nama = {dokter.data.fullName}
-                    onPress = {() => navigation.navigate ("Chatting")}
+                    photo = {{uri : dokter.data.photo}}
+                    onPress = {() => navigation.navigate ("DoctorProfile", dokter)}
                     />
                 })
             }
