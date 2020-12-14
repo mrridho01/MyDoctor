@@ -4,16 +4,15 @@ import { DummyDokter6 } from '../../../assets'
 import { colors, fonts } from '../../../utils'
 import { Button } from '../../Atom'
 
-export default function DarkProfile({onPress}) {
+export default function DarkProfile({onPress, nama, jabatan, photo}) {
     return (
         <View style = {styles.container}>
             <Button type = "icon-only" icon = "back-light" onPress = {onPress} />
             <View style = {styles.infoDokter}>
-            <Text style = {styles.nama}>Pak Ridho</Text>
-            <Text style = {styles.jabatan}>Dokter Hewan</Text>
-            </View>
-            
-            <Image source = {DummyDokter6} style = {styles.foto} />
+            <Text style = {styles.nama}>{nama}</Text>
+            <Text style = {styles.jabatan}>{jabatan}</Text>
+            </View>        
+            <Image source = {photo} style = {styles.foto} />
         </View>
     )
 }
@@ -38,7 +37,8 @@ const styles = StyleSheet.create({
     jabatan : {
         fontSize : 14,
         fontFamily : fonts.primary[300],
-        color : colors.text.darkGrey
+        color : colors.text.darkGrey,
+        textTransform : "capitalize"
     },
     foto : {
         height : 46,

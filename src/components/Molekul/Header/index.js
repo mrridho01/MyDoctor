@@ -5,9 +5,14 @@ import { colors } from '../../../utils/colors'
 import { Button, Gap } from '../../Atom'
 import DarkProfile from './DarkProfile'
 
-export default function Header({text, onPress, type}) {
+export default function Header({text, onPress, type, nama, jabatan, photo}) {
     if (type === "dark-profile") {
-        return <DarkProfile onPress = {onPress}/>
+        return <DarkProfile 
+        onPress = {onPress} 
+        nama = {nama} 
+        jabatan = {jabatan} 
+        photo = {photo}
+        />
     }
     return (
         <View style = {styles.headerLayout (type)}>

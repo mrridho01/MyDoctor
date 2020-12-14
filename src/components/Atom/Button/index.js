@@ -7,7 +7,7 @@ import IconOnly from './IconOnly'
 
 export default function Button({type, title, onPress, icon, inactive, disable}) {
     if (type === "button-icon-send") {
-        return <ButtonIconSend inactive = {inactive} />
+        return <ButtonIconSend inactive = {inactive} onPress = {onPress}/>
     };
     if ( type === "icon-only") {
         return <IconOnly icon ={icon} onPress = {onPress}/>
@@ -18,7 +18,7 @@ export default function Button({type, title, onPress, icon, inactive, disable}) 
                 <Text style = {styles.textDisableButton}>{title}</Text>
             </View>
         )
-    }
+    };
     return (
         <TouchableOpacity style ={styles.container (type)} onPress = {onPress}>
             <Text style = {styles.text (type)}>{title}</Text>

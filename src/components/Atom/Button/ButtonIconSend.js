@@ -1,16 +1,23 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ICSendInactive, ICSendActive } from '../../../assets'
 import { colors } from '../../../utils'
 
-export default function ButtonIconSend({inactive}) {
-    return (
-        <View style = {styles.container (inactive)}>
-            {inactive && <ICSendInactive />}
-            {!inactive && <ICSendActive />}
-        </View>
-    )
-}
+export default function ButtonIconSend({inactive, onPress}) {
+    if (inactive) {
+        return (
+            <View style = {styles.container (inactive)}>
+             <ICSendInactive />
+            </View>
+        );
+        } else {
+        return (
+            <TouchableOpacity onPress = {onPress} style = {styles.container (inactive)}>
+            <ICSendActive />
+            </TouchableOpacity>
+        );
+        };
+};
 
 const styles = StyleSheet.create({
     container :  (inactive) => ({
@@ -24,3 +31,4 @@ const styles = StyleSheet.create({
         borderRadius : 10
     })
 })
+
