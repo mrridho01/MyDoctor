@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { ChatItem, Header, InputChat } from '../../components'
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ChatItem, Header, InputChat } from '../../components';
 import { Firebase } from '../../config';
-import { colors, fonts, getChatTime, getData, setDateChat, showError } from '../../utils'
+import { colors, fonts, getChatTime, getData, setDateChat, showError } from '../../utils';
 
 export default function Chatting({navigation, route}) {
     const dataDoctor = route.params;
@@ -82,7 +82,7 @@ export default function Chatting({navigation, route}) {
         .push(dataChat)
         .then(()=> {
             setChatContent ("");
-            //set history for user
+            //set history for user; set untuk mengupdate nilai, beda dengan push
             Firebase.database()
             .ref(urlMessageUser)
             .set(dataHistoryChatForUser);

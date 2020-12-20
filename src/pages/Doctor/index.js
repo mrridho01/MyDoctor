@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { ILUserPhoto, JSONTopRatedDoctor } from "../../assets"
 import { DoctorType, Gap, HomeProfile, NewsItem, RatedDoctor } from '../../components'
 import { Firebase } from '../../config'
-import { colors, fonts } from '../../utils'
+import { colors, fonts, showError } from '../../utils'
 
 export default function Doctor({navigation}) {
     const [news, setNews] = useState ([]);
@@ -23,7 +23,6 @@ export default function Doctor({navigation}) {
         .limitToLast(3)
         .once("value")
         .then ((res) => {
-            console.log("top rated doctors : ", res.val());
             if (res.val()) {
                 const oldData = res.val();
                 const data = [];
@@ -33,21 +32,20 @@ export default function Doctor({navigation}) {
                         data : oldData[key]
                     });
                 });
-               console.log("data hasil parse: " , data);
                setDoctor (data);
             };
         })
         .catch ((err) => {
-            console.log ("error : ", err.message);
+            showError(err.message);
         });
-    }
+    };
     const getCategoryDoctor = () => {
         Firebase
         .database()
         .ref("category_dokter/")
         .once("value")
         .then ((res) => {     
-            console.log("data : ", res.val());
+
             if (res.val()) {
                 const data = res.val();
                 const filterData = data.filter ((el) => el !== null);
@@ -56,7 +54,7 @@ export default function Doctor({navigation}) {
             };
         })
         .catch ((err) => {
-            console.log ("error : ", err.message);
+            showError(err.message);
         });
     };
 
@@ -66,7 +64,6 @@ export default function Doctor({navigation}) {
         .ref("news/")
         .once("value")
         .then ((res) => {
-            console.log("data : ", res.val());
             if (res.val()) {
                 const data = res.val();
                 const filterData = data.filter ((el) => el !== null);
@@ -74,11 +71,10 @@ export default function Doctor({navigation}) {
             };
         })
         .catch ((err) => {
-            console.log ("error : ", err.message);
+            showError(err.message);
         });
     };
-
-     
+ 
     return (
         <View style = {styles.mainPage}>
             <View style = {styles.contentPage}>
