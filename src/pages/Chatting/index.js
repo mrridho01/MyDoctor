@@ -67,7 +67,7 @@ export default function Chatting({navigation, route}) {
                 lastContentChat : chatContent  ,
                 lastChatDate : today.getTime(),
                 uidPartner : user.uid
-            };
+            }
 
         const dataChat = {
             sendBy : user.uid,

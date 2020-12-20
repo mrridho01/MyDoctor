@@ -5,7 +5,6 @@ import { Firebase } from '../../config';
 import { fonts } from '../../utils';
 import { colors } from '../../utils/colors';
 
-
 export default function Splash({navigation}) {
     useEffect (() => {
         const unsubscribe = Firebase

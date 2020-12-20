@@ -7,4 +7,4 @@ export default function ChatItem({isMe, text, time, photo}) {
         return <IsMe text = {text} time = {time} />;
     };
     return <Other text = {text} time = {time} photo = {photo} />;
-}
+};
