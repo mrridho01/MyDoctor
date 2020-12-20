@@ -1,0 +1,29 @@
+{
+    "dokterAnak" :[
+        {
+            "id" : 1,
+            "nama" : "Alexander Jannie",
+            "gender" : "Wanita"
+        },
+        {
+            "id" : 2,
+            "nama" : "John McParker Steve",
+            "gender" : "Pria"
+        },
+        {
+            "id" : 3,
+            "nama" : "Nairobi Putri Hayza",
+            "gender" : "Wanita"
+        },
+        {
+            "id" : 4,
+            "nama" : "James Rivillia",
+            "gender" : "Pria"
+        },
+        {
+            "id" :5,
+            "nama" : "Liu Yue Tin Park",
+            "gender" : "Wanita"
+        }
+    ]
+}
