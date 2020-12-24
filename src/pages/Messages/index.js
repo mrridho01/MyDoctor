@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { DummyDokter1, DummyDokter2, DummyDokter3, ILUserPhoto } from '../../assets'
 import { ChatList, Gap } from '../../components'
 import { Firebase } from '../../config'
 import { colors, fonts, getData } from '../../utils'
@@ -11,26 +10,37 @@ export default function Messages({navigation}) {
             setUser (res);
         });
     };
-   const [user,setUser] = useState ({});
-   const [historyChat, setHistoryChat] = useState([]);
+    const [user,setUser] = useState ({});
+    const [historyChat, setHistoryChat] = useState([]);
 
     useEffect (() => {
+        const rootDB = Firebase.database().ref();
         const urlHistory = `messages/${user.uid}/`;
+        const messageDB = rootDB.child(urlHistory);
+        
         getDataUserFromLocal();
-        Firebase.database()
-        .ref(urlHistory)
-        .on("value", snapshot => {
+        messageDB
+        .on("value", async snapshot => {
             if(snapshot.val()) {
                 console.log("isi snapshot val() : ", snapshot.val());
                 const snapShotVal = snapshot.val();
                 const historyMessage = [];
-                Object.keys(snapShotVal)
-                .map(isiChat => {
+
+                const promises = await Object.keys(snapShotVal)
+                .map(async isiChat => {
+                    const urlUidDoctor = `doctors/${snapShotVal[isiChat].uidPartner}`;
+                    const detailDoctor = await rootDB.child(urlUidDoctor).once("value");
+                    const valueDetailDoctor = detailDoctor.val();
+                    console.log("urlUidDoctor : ", urlUidDoctor);
+                    console.log("DetailDoctor : ", valueDetailDoctor);
                     historyMessage.push({
                         id : isiChat,
+                        DetailDoctor : valueDetailDoctor,
                         data : snapShotVal[isiChat]
                     });
-                })
+                });
+                await Promise.all(promises);
+
                 console.log("history message : ", historyMessage);
                 setHistoryChat(historyMessage);
             };
@@ -46,12 +56,16 @@ export default function Messages({navigation}) {
                 </View>
                 {
                     historyChat.map (chatDoctors => {
+                        const dataDoctor = {
+                            id : chatDoctors.DetailDoctor.uid,
+                            data : chatDoctors.DetailDoctor
+                        };
                         return <ChatList 
                         key = {chatDoctors.id}
-                        foto = {ILUserPhoto} 
-                        nama = {chatDoctors.data.uidPartner} 
+                        foto = {{uri : chatDoctors.DetailDoctor.photo}} 
+                        nama = {chatDoctors.DetailDoctor.fullName} 
                         chat = {chatDoctors.data.lastContentChat}
-                        onPress = {() => navigation.navigate ("Chatting")}/>
+                        onPress = {() => navigation.navigate ("Chatting", dataDoctor)}/>
                     })
                 }
             </View>
